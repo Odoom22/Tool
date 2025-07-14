@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+httpx
+selenium
+webdriver-manager
+adblockparser
+beautifulsoup4
+lxml

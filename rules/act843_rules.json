@@ -1,0 +1,127 @@
+[
+  {
+    "id": "Sec19_PurposeLimitation",
+    "description": "Collect data only for specific, lawful purposes",
+    "act_references": ["Section 19"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Limit your forms to only necessary fields (e.g., name, email)."
+      }
+    ]
+  },
+  {
+    "id": "Sec20_Consent",
+    "description": "Process personal data only with explicit consent",
+    "act_references": ["Section 20"],
+    "checks": [
+      {
+        "type": "scenario_tracker",
+        "config": {},
+        "recommendation": "Implement a cookie‐consent banner and block non‐essential trackers until the user consents."
+      }
+    ]
+  },
+  {
+    "id": "Sec27_InformationToBeProvided",
+    "description": "Inform data subjects of purposes, recipients, retention, etc.",
+    "act_references": ["Section 27"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Include clear statements in your Privacy Policy about data use, recipients, and retention periods."
+      }
+    ]
+  },
+  {
+    "id": "Sec28_SecurityOfProcessing",
+    "description": "Implement appropriate technical measures to secure data",
+    "act_references": ["Section 28"],
+    "checks": [
+      {
+        "type": "https",
+        "config": {},
+        "recommendation": "Ensure your site uses a valid HTTPS certificate."
+      },
+      {
+        "type": "http_header",
+        "config": { "header": "Strict-Transport-Security" },
+        "recommendation": "Add the Strict‑Transport‑Security header to enable HSTS."
+      }
+    ]
+  },
+  {
+    "id": "Sec30_DataMinimization",
+    "description": "Collect only adequate, relevant, and not excessive data",
+    "act_references": ["Section 30"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Remove any form fields requesting sensitive data (e.g., DOB, national ID) unless essential."
+      }
+    ]
+  },
+  {
+    "id": "Sec31_StorageLimitation",
+    "description": "Keep personal data no longer than necessary",
+    "act_references": ["Section 31"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Specify retention periods in your Privacy Policy and delete data accordingly."
+      }
+    ]
+  },
+  {
+    "id": "Sec32_RightOfAccess",
+    "description": "Data subjects have the right to access their data",
+    "act_references": ["Section 32"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Provide a contact email or form for users to request their data."
+      }
+    ]
+  },
+  {
+    "id": "Sec33_RightToRectification",
+    "description": "Data subjects have the right to correct inaccurate data",
+    "act_references": ["Section 33"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "State in your Privacy Policy how users can request corrections."
+      }
+    ]
+  },
+  {
+    "id": "Sec34_RightToErasure",
+    "description": "Data subjects have the right to have data erased (‘right to be forgotten’)",
+    "act_references": ["Section 34"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Include a “delete my data” mechanism or email link in your Privacy Policy."
+      }
+    ]
+  },
+  {
+    "id": "Sec40_PrivacyNotices",
+    "description": "Provide clear, accessible privacy notices",
+    "act_references": ["Section 40"],
+    "checks": [
+      {
+        "type": "dom_notices",
+        "config": {},
+        "recommendation": "Ensure you have a visible Privacy Policy link on your homepage."
+      }
+    ]
+  }
+]
