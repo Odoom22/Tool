@@ -3,7 +3,10 @@ uvicorn
 pydantic
 httpx
 selenium
-webdriver-manager
+selenium-wire
+blinker==1.7.0
+setuptools
 adblockparser
 beautifulsoup4
 lxml
+chromedriver-autoinstaller

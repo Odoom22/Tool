@@ -20,29 +20,27 @@ logger.info("Starting application setup...")
 class AuditRequest(BaseModel):
     domain: str
 
-try:
-    app = FastAPI(title="Wɔkɔm Professional Compliance Suite")
-    logger.info("FastAPI app initialized.")
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-    logger.info("CORSMiddleware added.")
+from contextlib import asynccontextmanager
 
-except Exception as e:
-    logger.error(f"Error during FastAPI app initialization or middleware setup: {e}", exc_info=True)
-    raise
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup logic
     logger.info("Application startup event triggered.")
-
-@app.on_event("shutdown")
-async def shutdown_event():
+    yield
+    # Shutdown logic
     logger.info("Application shutdown event triggered.")
+
+app = FastAPI(title="Wɔkɔm Professional Compliance Suite", lifespan=lifespan)
+logger.info("FastAPI app initialized.")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+logger.info("CORSMiddleware added.")
 
 @app.post("/audit")
 async def run_audit_endpoint(request_data: AuditRequest, request: Request):

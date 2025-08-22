@@ -32,14 +32,18 @@ async def audit_site(domain: str) -> dict:
         return report
 
     # 2. Static fetch for HTML and headers
+    headers = httpx.Headers() # Initialize headers to an empty object
     try:
-        resp = httpx.get(f"https://{domain}", timeout=10)
-        html = resp.text
-        headers = dict(resp.headers)
+        resp = httpx.get(f"https://{domain}", timeout=10, follow_redirects=True)
+        # Note: main_page_html is now retrieved by the crawler, but we still need headers.
+        headers = resp.headers
     except Exception as e:
         logging.error("HTTPX fetch failed: %s", traceback.format_exc())
         report['errors'].append(f"HTTPX fetch failed: {str(e)}")
-        return report
+        # We can still proceed with scenario-based checks even if this fails
+
+    main_page_html = scenarios.get('main_page_text', '')
+    privacy_policy_html = scenarios.get('privacy_policy_text', '')
 
     # 3. Evaluate rules
     for rule in rules:
@@ -49,41 +53,36 @@ async def audit_site(domain: str) -> dict:
         for chk in rule.get('checks', []):
             t = chk.get('type')
             rec = chk.get('recommendation')
+            config = chk.get('config', {})
             passed = False
             detail = None
 
             try:
                 if t == 'https':
-                    out = run_security_headers(headers)
-                    passed, detail = out['passed'], out['details']
+                    passed = resp.url.scheme == 'https'
+                    detail = {'https_enabled': passed}
 
                 elif t == 'http_header':
-                    header = chk['config'].get('header')
+                    header = config.get('header')
                     passed = header in headers
                     detail = headers.get(header, 'Missing')
 
                 elif t == 'dom_notices':
-                    out = run_dom_scan(html)
+                    out = run_dom_scan(main_page_html, privacy_policy_html, config)
                     passed, detail = out['passed'], out['details']
 
                 elif t == 'scenario_tracker':
                     urls_before = scenarios.get('har_before', {}).get('urls', [])
                     urls_after = scenarios.get('har_after', {}).get('urls', [])
 
-                    # Trackers loaded before consent action
-                    before_trackers = {u for u in urls_before if is_tracker(u)}
-
-                    # Cumulative trackers loaded after consent action
-                    after_trackers_cumulative = {u for u in urls_after if is_tracker(u)}
-
-                    # Trackers loaded *only* after consent action
-                    new_after_trackers = list(after_trackers_cumulative - before_trackers)
+                    before_trackers = [u for u in urls_before if is_tracker(u)]
+                    after_trackers = [u for u in urls_after if is_tracker(u)]
 
                     # The rule passes if no trackers are loaded before consent is given.
                     passed = len(before_trackers) == 0
                     detail = {
-                        'before_trackers': list(before_trackers),
-                        'after_trackers': new_after_trackers
+                        'before_trackers': before_trackers,
+                        'after_trackers': after_trackers
                     }
 
                 elif t == 'cookie_attributes':

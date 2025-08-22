@@ -6,8 +6,11 @@
     "checks": [
       {
         "type": "dom_notices",
-        "config": {},
-        "recommendation": "Limit your forms to only necessary fields (e.g., name, email)."
+        "config": {
+          "check_type": "keyword_presence",
+          "keywords": ["purpose", "specific purpose", "why we collect", "how we use"]
+        },
+        "recommendation": "State the specific purposes for data collection in your privacy policy."
       }
     ]
   },
@@ -19,7 +22,7 @@
       {
         "type": "scenario_tracker",
         "config": {},
-        "recommendation": "Implement a cookie‐consent banner and block non‐essential trackers until the user consents."
+        "recommendation": "Implement a cookie-consent banner and block non-essential trackers until the user consents."
       }
     ]
   },
@@ -30,7 +33,10 @@
     "checks": [
       {
         "type": "dom_notices",
-        "config": {},
+        "config": {
+          "check_type": "keyword_presence",
+          "keywords": ["purpose", "recipient", "retention", "how long we keep"]
+        },
         "recommendation": "Include clear statements in your Privacy Policy about data use, recipients, and retention periods."
       }
     ]
@@ -48,7 +54,7 @@
       {
         "type": "http_header",
         "config": { "header": "Strict-Transport-Security" },
-        "recommendation": "Add the Strict‑Transport‑Security header to enable HSTS."
+        "recommendation": "Add the Strict-Transport-Security header to enable HSTS."
       }
     ]
   },
@@ -59,20 +65,11 @@
     "checks": [
       {
         "type": "dom_notices",
-        "config": {},
-        "recommendation": "Remove any form fields requesting sensitive data (e.g., DOB, national ID) unless essential."
-      }
-    ]
-  },
-  {
-    "id": "Sec31_StorageLimitation",
-    "description": "Keep personal data no longer than necessary",
-    "act_references": ["Section 31"],
-    "checks": [
-      {
-        "type": "dom_notices",
-        "config": {},
-        "recommendation": "Specify retention periods in your Privacy Policy and delete data accordingly."
+        "config": {
+          "check_type": "keyword_presence",
+          "keywords": ["data minimization", "only necessary", "adequate and relevant"]
+        },
+        "recommendation": "State your data minimization principles in your privacy policy."
       }
     ]
   },
@@ -83,32 +80,11 @@
     "checks": [
       {
         "type": "dom_notices",
-        "config": {},
+        "config": {
+          "check_type": "keyword_presence",
+          "keywords": ["right to access", "access your data", "request your data"]
+        },
         "recommendation": "Provide a contact email or form for users to request their data."
-      }
-    ]
-  },
-  {
-    "id": "Sec33_RightToRectification",
-    "description": "Data subjects have the right to correct inaccurate data",
-    "act_references": ["Section 33"],
-    "checks": [
-      {
-        "type": "dom_notices",
-        "config": {},
-        "recommendation": "State in your Privacy Policy how users can request corrections."
-      }
-    ]
-  },
-  {
-    "id": "Sec34_RightToErasure",
-    "description": "Data subjects have the right to have data erased (‘right to be forgotten’)",
-    "act_references": ["Section 34"],
-    "checks": [
-      {
-        "type": "dom_notices",
-        "config": {},
-        "recommendation": "Include a “delete my data” mechanism or email link in your Privacy Policy."
       }
     ]
   },
@@ -119,7 +95,10 @@
     "checks": [
       {
         "type": "dom_notices",
-        "config": {},
+        "config": {
+          "check_type": "privacy_policy_link",
+          "keywords": ["privacy", "cookie policy", "legal", "terms", "data policy"]
+        },
         "recommendation": "Ensure you have a visible Privacy Policy link on your homepage."
       }
     ]
